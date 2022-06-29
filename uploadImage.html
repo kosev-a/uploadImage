@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+</head>
+<body>
+<div class="container">
+    <p>Загрузка изображения на сайт размером не более 300 кб</p>
+    <input type="file" id="imageInput">
+    <div>
+        <img src="" id="img">
+    </div>
+</div>
+
+<script>
+    const img = document.querySelector("#img");
+    const imageInput = document.querySelector("#imageInput");
+    const fileReader = new FileReader();
+
+    fileReader.addEventListener("load", function () {
+        img.src = fileReader.result;
+    });
+
+    imageInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (file) {
+            if (file.size > 300 * 1024) {
+                alert("Файл слишком большой!");
+                imageInput.value = '';
+            } else if (!allowedExtensions.test(imageInput.value)) {
+                alert("Неверный тип файла");
+                imageInput.value = '';
+            } else {
+                fileReader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
+</body>
+</html>
+
